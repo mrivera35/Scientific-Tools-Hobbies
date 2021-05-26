@@ -6,3 +6,7 @@ This is just a place for a nerdy grad student to upload things I thought other o
 
 Happy coding!
 mrivera35
+
+
+List of programs and descriptions:
+1. WebscrapingScript: Written in Python. Will need all of the packages listed at the top of the programe. Scrapes scientific journal publishers (ScienceDirect, ACS, Wiley, RSC, Nature, Science) for some basic article info ('Title','Authors','Year','Journal', 'Citations','DOI','Link to Full Paper','Abstract'). You can enter as many search criterion as you want at the top. The program then uses Selenium to visit the publisher pages and then article pages for the info. You can search them all at once, or run section by section for specific publishers. I wrote this to help write a review paper thinking it would help narrow things down a bit more than a Google Scholar search. I found it helpful to further refine the initial search with sub-searches for strings in the abstracts (although I did that separately).  
