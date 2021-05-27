@@ -1,25 +1,26 @@
-# Mixed Matrix Membranes Reproducibility Web-scraping Script
+# Scientific Journal Publisher Web-scraping Script
 
 #Clear all
 from IPython import get_ipython
 get_ipython().magic('reset -sf')
 
 # Import packages
-from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import numpy as np
 import pandas as pd
 import math
-import selenium
 from selenium import webdriver
 import time
 import os
-from selenium.webdriver import ActionChains
 
 #User Input 
-sc=["ZIF-8",'Matrimid'] #enter search terms as a list of strings
+sc=[] #seach criterion. enter search terms as a list of strings
 
-driverpath='C:/Users/mrivera35/chromedriver.exe' #path for chromedriver program
+driverpath='' #path for chromedriver program
+savepath='' #path where you want the csv containing the results to be saved
+
+
+
 
 driver=webdriver.Chrome(executable_path=driverpath)
 
@@ -134,6 +135,10 @@ scidirresults=pd.concat([restitles,resauthors,resyear, resjournal, rescitations,
 scidirresults.columns=['Title','Authors','Year','Journal', 'Citations','DOI','Link to Full Paper','Abstract']
     
 
+
+
+
+
 #%%
 #Search ACS URLs
 #Initial publisher webpage search
@@ -209,6 +214,11 @@ for i in np.arange(1,len(acsresults.index)):
 acsresults=pd.concat([acsresults.iloc[:,0:2],year,acsresults.iloc[:,2],citations,acsresults.iloc[:,3:6]],axis=1,ignore_index=True)                             
 acsresults.columns=['Title','Authors','Year','Journal', 'Citations','DOI','Link to Full Paper','Abstract']
 acsresults=acsresults.drop(0)
+
+
+
+
+
 
 #%%
 #Search Wiley
@@ -297,6 +307,9 @@ abstracts=abstracts.drop(0)
 wileyresults=pd.concat([wileyresults.iloc[:,0:4],citations,wileyresults.iloc[:,4:6],abstracts],axis=1,ignore_index=True)
     
 wileyresults.columns=['Title','Authors','Year','Journal', 'Citations','DOI','Link to Full Paper','Abstract']
+
+
+
 
 
 
@@ -396,6 +409,12 @@ rscresults=pd.concat([rscresults.iloc[:,0:3],journal,citations,rscresults.iloc[:
 rscresults.columns=['Title','Authors','Year','Journal', 'Citations','DOI','Link to Full Paper','Abstract']
 rscresults=rscresults.drop(0)
 
+
+
+
+
+
+
 #%%
 # Nature Results
 
@@ -471,6 +490,13 @@ for i in np.arange(0,len(natres.index)):
 natureresults=natureresults.drop(0)
 natureresults.columns=['Title','Authors','Year','Journal', 'Citations','DOI','Link to Full Paper','Abstract']
 
+
+
+
+
+
+
+
 #%%
 #Science Search Results
 baseurl="https://search.sciencemag.org/?searchTerm="
@@ -522,13 +548,16 @@ for j in np.arange(0,10):
     scienceresults=pd.concat([restitle,resyear,resdoi,reslink],axis=1,ignore_index=True)
         
      
-        
+  
+
+
+      
 #%%
 driver.close() #closes webpages when finished
 
 allresults=pd.concat([scidirresults,acsresults,wileyresults,rscresults,natureresults,scienceresults],ignore_index=True)
 
-os.chdir('C:/Users/mrivera35/Desktop/Group Documents/My Papers/MMM Reproducibility')
+os.chdir(savepath)
 
 namestring=''
 for n in np.arange(0,len(sc)):
